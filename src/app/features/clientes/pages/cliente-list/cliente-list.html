@@ -1,0 +1,72 @@
+<section>
+  <header class="encabezado">
+    <h1>Clientes</h1>
+    <a class="btn" routerLink="/clientes/nuevo">+ Nuevo cliente</a>
+  </header>
+
+  @if (error()) {
+    <p class="alerta">{{ error() }}</p>
+  }
+
+  <div class="controles">
+    <input type="search" placeholder="Buscar por DNI o nombre..."
+           [value]="busqueda()" (input)="onBuscar($event)" />
+    <label>
+      Por página
+      <select (change)="cambiarTamanio($event)">
+        @for (op of opcionesTamanio; track op) {
+          <option [value]="op" [selected]="op === tamanio()">{{ op }}</option>
+        }
+      </select>
+    </label>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="ordenable" (click)="ordenar('dni')">DNI {{ flecha('dni') }}</th>
+        <th class="ordenable" (click)="ordenar('apellidos')">
+          Apellidos y nombres {{ flecha('apellidos') }}
+        </th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      @if (cargando()) {
+        <tr><td colspan="6">Cargando clientes...</td></tr>
+      } @else if (filtrados().length === 0) {
+        <tr><td colspan="6">No hay clientes para mostrar.</td></tr>
+      } @else {
+        @for (c of filtrados(); track c.id) {
+          <tr>
+            <td>{{ c.dni }}</td>
+            <td>{{ c.apellidos }}, {{ c.nombres }}</td>
+            <td>{{ c.email }}</td>
+            <td>{{ c.telefono ?? '—' }}</td>
+            <td>
+              <span class="badge" [class.inactivo]="!c.estado">
+                {{ c.estado ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td>
+              <a class="btn" [routerLink]="['/clientes', c.id, 'editar']">Editar</a>
+              <button class="btn peligro" (click)="darDeBaja(c)">Dar de baja</button>
+            </td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+
+  <footer class="paginacion">
+    <button (click)="anterior()" [disabled]="pagina() === 0">Anterior</button>
+    <span>
+      Página {{ pagina() + 1 }} de {{ datos()?.totalPaginas ?? 1 }}
+      · {{ datos()?.totalElementos ?? 0 }} clientes
+    </span>
+    <button (click)="siguiente()" [disabled]="datos()?.ultima ?? true">Siguiente</button>
+  </footer>
+</section>

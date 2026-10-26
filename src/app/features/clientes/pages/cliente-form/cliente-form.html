@@ -1,0 +1,50 @@
+<section>
+  <h1>{{ id() ? 'Editar cliente' : 'Nuevo cliente' }}</h1>
+
+  @if (error()) {
+    <p class="alerta">{{ error() }}</p>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+    <label>DNI
+      <input formControlName="dni" maxlength="8" inputmode="numeric" />
+      @if (campoInvalido('dni')) { <small class="error">El DNI debe tener exactamente 8 dígitos.</small> }
+    </label>
+
+    <label>Nombres
+      <input formControlName="nombres" />
+      @if (campoInvalido('nombres')) { <small class="error">Obligatorio, entre 2 y 100 caracteres.</small> }
+    </label>
+
+    <label>Apellidos
+      <input formControlName="apellidos" />
+      @if (campoInvalido('apellidos')) { <small class="error">Obligatorio, entre 2 y 100 caracteres.</small> }
+    </label>
+
+    <label>Correo
+      <input type="email" formControlName="email" />
+      @if (campoInvalido('email')) { <small class="error">Ingrese un correo válido (máximo 150 caracteres).</small> }
+    </label>
+
+    <label>Teléfono (opcional)
+      <input formControlName="telefono" maxlength="9" inputmode="numeric" />
+      @if (campoInvalido('telefono')) { <small class="error">Si lo ingresa, debe tener 9 dígitos.</small> }
+    </label>
+
+    <label>Dirección (opcional)
+      <textarea formControlName="direccion"></textarea>
+      @if (campoInvalido('direccion')) { <small class="error">Máximo 250 caracteres.</small> }
+    </label>
+
+    <label class="check">
+      <input type="checkbox" formControlName="estado" /> Activo
+    </label>
+
+    <div class="acciones">
+      <a class="btn" routerLink="/clientes">Cancelar</a>
+      <button class="btn primario" type="submit" [disabled]="guardando()">
+        {{ id() ? 'Guardar cambios' : 'Registrar' }}
+      </button>
+    </div>
+  </form>
+</section>
