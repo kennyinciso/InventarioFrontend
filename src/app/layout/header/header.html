@@ -11,6 +11,7 @@
 <span class="nombre">{{ s.nombreCompleto }}</span>
 <span class="detalle">{{ s.roles.join(' · ') }} · expira {{ s.expiraEn | date: 'HH:mm' }}</span>
 </div>
+<a routerLink="/mi-cuenta" class="btn-salir">Mi cuenta</a>
 <button type="button" class="btn-salir" (click)="salir()">Cerrar sesión</button>
 }
 </header>

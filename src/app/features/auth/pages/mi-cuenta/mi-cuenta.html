@@ -1,0 +1,46 @@
+<section class="page">
+  <header class="page-header">
+    <h2>Mi cuenta</h2>
+  </header>
+
+  @if (cargando()) {
+    <p>Cargando su perfil...</p>
+  } @else if (error()) {
+    <div class="alerta" role="alert">{{ error() }}</div>
+  } @else if (perfil(); as p) {
+    @if (permisosCambiaron()) {
+      <div class="aviso" role="status">
+        Sus permisos cambiaron. Cierre sesión y vuelva a ingresar para actualizarlos.
+      </div>
+    }
+
+    <div class="card">
+      <h3>{{ p.nombreCompleto }}</h3>
+      <p>Usuario: <strong>{{ p.username }}</strong></p>
+      <p>
+        Roles:
+        @for (r of p.roles; track r) {
+          <span class="chip">{{ r }}</span>
+        }
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>Permisos por módulo</h3>
+      @for (m of modulos(); track m.nombre) {
+        <h4>{{ m.nombre }}</h4>
+        <ul class="permisos">
+          @for (pm of m.permisos; track pm.codigo) {
+            <li>
+              <span [class]="pm.concedido ? 'ok' : 'no'"
+                    [attr.aria-label]="pm.concedido ? 'Concedido' : 'No concedido'">
+                {{ pm.concedido ? '✔' : '✘' }}
+              </span>
+              {{ pm.codigo }}
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  }
+</section>

@@ -45,6 +45,12 @@ loadChildren: () =>
 import('./features/ventas/ventas.routes').then(m => m.VENTAS_ROUTES),
 },
 {
+  path: 'mi-cuenta',
+  title: 'Mi cuenta',
+  loadComponent: () =>
+    import('./features/auth/pages/mi-cuenta/mi-cuenta').then(m => m.MiCuenta),
+},
+{
 path: 'acceso-denegado',
 title: 'Acceso denegado',
 loadComponent: () =>
@@ -58,4 +64,5 @@ title: 'Página no encontrada',
 loadComponent: () =>
 import('./shared/pages/no-encontrado/no-encontrado').then(m => m.NoEncontrado),
 },
+
 ];
