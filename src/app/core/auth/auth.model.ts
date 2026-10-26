@@ -32,3 +32,10 @@ nombreCompleto: string;
 roles: string[];
 permisos: Permiso[];
 }
+/** Lo que devuelve GET /auth/me. */
+export interface Perfil {
+  username: string;
+  nombreCompleto: string;
+  roles: string[];
+  permisos: Permiso[];
+}
